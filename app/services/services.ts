@@ -76,8 +76,12 @@ export async function getParsedData(token: string, id: string) {
 
 //get adsLink
 export async function getAdsLink() {
+  // const res = await fetch(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-adsLink`,
+  //   { cache: "no-store" }
+  // );
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-adsLink`,
+    `https://j4you-beta.vercel.app/api/get-adsLink`,
     { cache: "no-store" }
   );
   const data = await res.json();
@@ -85,7 +89,8 @@ export async function getAdsLink() {
 }
 
 export async function getActiveToken() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-active`);
+  const res = await fetch(`https://j4you-beta.vercel.app/api/get-active`);
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-active`);
   const data = await res.json();
 
   return data.activeToken;
