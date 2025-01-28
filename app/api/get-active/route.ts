@@ -4,7 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    await connectMongoDB();
+    const connectToDB =  await connectMongoDB();
+
+    if(connectToDB.status === 500){
+      return NextResponse.json({status: connectToDB.status,msg:connectToDB.msg})
+    }
 
     const data = await J4You.find({ type: "tokenList" });
     const { active, tokenList } = data[0];
