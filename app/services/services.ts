@@ -76,18 +76,16 @@ export async function getParsedData(token: string, id: string) {
 
 //get adsLink
 export async function getAdsLink() {
-  // const res = await fetch(
-  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-adsLink`,
-  //   { cache: "no-store" }
-  // );
-  const res = await fetch(`/api/get-adsLink`,{ cache: "no-store" });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-adsLink`,
+    { cache: "no-store" }
+  );
   const data = await res.json();
   return data.activeLink;
 }
 
 export async function getActiveToken() {
-  const res = await fetch(`/api/get-active`);
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-active`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-active`);
   const data = await res.json();
 
   return data.activeToken;

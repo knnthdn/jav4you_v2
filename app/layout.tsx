@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 
-import { Inter } from 'next/font/google';
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const inter = Inter({
-  subsets: ['latin'], // Specify the font subset, e.g., 'latin'
-  weight:"400"
 
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
 });
-
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
 
 export const metadata: Metadata = {
   title: "Jav4You",
@@ -28,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
     <body
-      className={`${inter.className} antialiased bg-[#1E1E1E] flex flex-col h-screen`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#1E1E1E] flex flex-col h-screen`}
     >
       <Header />
 
