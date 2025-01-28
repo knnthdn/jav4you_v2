@@ -11,9 +11,6 @@ export type parseDataType = {
   format: string;
 };
 
-// const url =
-//   "https://api.scraperapi.com/?api_key=0514fda1b708019e3d90faaeaac67e92&url=https://api.v02.savethevideo.com/tasks";
-
 function url(token: string) {
   return `https://api.scraperapi.com/?api_key=${token}&url=https://api.v02.savethevideo.com/tasks`;
 }
