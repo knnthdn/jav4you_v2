@@ -411,9 +411,7 @@ export default function DownloadSection({ src }: DlSectionTypes) {
             {state.onProgressParsing?.state === "completed" && (
               <a
                 onClick={async () => {
-                  await fetch(
-                    `${process.env.NEXT_PUBLIC_BASE_URL}/api/increment-adsLink-request`
-                  );
+                  await fetch(`/api/increment-adsLink-request`);
                 }}
                 href={
                   Array.isArray(state.onProgressParsing.result)
