@@ -6,11 +6,11 @@ function SearchArea({ isLoading }: { isLoading: boolean }) {
     <form
       action={query}
       className="flex w-full bg-[#353535] items-center rounded-[10px] overflow-hidden sm:max-w-[250px] sm:self-end"
-      onSubmit={() => localStorage.removeItem("code")}
+      // onSubmit={() => localStorage.removeItem("code")}
     >
       <input
         type="text"
-        placeholder="Search code"
+        placeholder="Search code ex: MIAA-230"
         name="query"
         required
         className="flex-1 bg-[#353535] py-1 outline-none px-2 text-white focus:bg-none"

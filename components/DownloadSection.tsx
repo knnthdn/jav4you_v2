@@ -4,14 +4,29 @@ import { useEffect, useReducer } from "react";
 
 import {
   getActiveToken,
-  getAdsLink,
+  getAdsLinkDownload,
+  // getAdsLink,
   getInfo,
   getParsedData,
   parseData,
+  rotateAdsDownload,
 } from "@/app/services/services";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 interface InfoData {
   state: string;
@@ -131,7 +146,7 @@ export default function DownloadSection({ src }: DlSectionTypes) {
     }
 
     async function getAdsLinkBut() {
-      const res = await getAdsLink();
+      const res = await getAdsLinkDownload();
       dispatch({ type: "SET_ADS_DL_BUT", payload: res });
     }
 
@@ -277,16 +292,15 @@ export default function DownloadSection({ src }: DlSectionTypes) {
 
   async function handleDownloadBut() {
     dispatch({ type: "SET_DL_LINK", payload: src });
-    // const adsLink = await getAdsLink();
-    // dispatch({ type: "SET_ADS_DL_BUT", payload: adsLink });
 
     if (!state.adsDlBut) return;
     window.open(state.adsDlBut, "_blank");
     dispatch({ type: "SET_ADS_DL_BUT", payload: "" });
+    rotateAdsDownload();
   }
 
   return (
-    <Dialog >
+    <Dialog>
       <DialogTrigger asChild>
         <button
           className="w-full bg-[#E9E9E9] text-black rounded-xl py-1 mt-1 hover:bg-[#a7a7a7] transition duration-200"
@@ -410,11 +424,6 @@ export default function DownloadSection({ src }: DlSectionTypes) {
 
             {state.onProgressParsing?.state === "completed" && (
               <a
-                onClick={async () => {
-                  await fetch(
-                    `${process.env.NEXT_PUBLIC_BASE_URL}/api/increment-adsLink-request`
-                  );
-                }}
                 href={
                   Array.isArray(state.onProgressParsing.result)
                     ? state.onProgressParsing.result[0]?.link

@@ -15,7 +15,7 @@ import {
 } from "@vidstack/react/player/layouts/default";
 import DownloadSection from "./DownloadSection";
 import { Skeleton } from "./ui/skeleton";
-import { getAdsLink } from "@/app/services/services";
+import { getAdsLinkPlayer, rotateAdsPlyr } from "@/app/services/services";
 import Image from "next/image";
 import { formatDuration } from "@/lib/utils";
 import Link from "next/link";
@@ -55,69 +55,60 @@ export default function MainSection({ query }: { query: string }) {
 
   useEffect(() => {
     if (!query) return;
+
+    // Get cached data from localStorage
     const cachedData = localStorage.getItem("code");
 
+    // Clear old cache if the query has changed
     if (cachedData) {
-      if (JSON.parse(cachedData).results?.code !== query) {
+      const parsedData = JSON.parse(cachedData);
+
+      if (parsedData.results?.code !== query) {
         localStorage.removeItem("code");
       }
-      //call automatically
     }
 
+    // Function to fetch data
     const getData = async () => {
       setIsLoading(true);
+      setData(null); // Clear previous state immediately to prevent showing old data
 
-      // Check if data exists in local storage
-      if (cachedData) {
-        setData(JSON.parse(cachedData));
+      // Re-check localStorage after possible removal
+      const freshCache = localStorage.getItem("code");
+
+      if (freshCache) {
+        setData(JSON.parse(freshCache));
         setIsLoading(false);
-
-        // (async () => {
-        //   const adsData = await getAdsLink();
-
-        //   if (adsData) {
-        //     setAdsPlyr(adsData);
-        //   } else {
-        //     setAdsPlyr("");
-        //   }
-        // })();
-
         return;
       }
 
-      // const adsData = await getAdsLink();
-
-      // if (adsData) {
-      //   setAdsPlyr(adsData);
-      // } else {
-      //   setAdsPlyr("");
-      // }
-
+      // Fetch new data
       const res = await searchCode(query);
 
       if (res) {
         setData(res as SearchResponseTypes);
+
+        // Save new data if valid
         if (res.status !== 404 && res.status !== 500) {
           localStorage.setItem("code", JSON.stringify(res));
         }
       }
 
-      // Save data to local storage
       setIsLoading(false);
     };
+
     getData();
 
+    // Cleanup (Only resets state, no need to clear localStorage here)
     return () => {
       setData(null);
       setIsLoading(false);
-      localStorage.removeItem("code");
     };
   }, [query]);
 
   useEffect(() => {
     async function plyrAds() {
-      const adsData = await getAdsLink();
-
+      const adsData = await getAdsLinkPlayer();
       if (adsData) {
         setAdsPlyr(adsData);
       } else {
@@ -126,12 +117,14 @@ export default function MainSection({ query }: { query: string }) {
     }
 
     plyrAds();
+    // localStorage.removeItem("code");
   }, [query]);
 
-  function injectAdsPlyr() {
+  async function injectAdsPlyr() {
     if (!adsPlyr) return;
     window.open(adsPlyr, "_blank");
     setAdsPlyr("");
+    rotateAdsPlyr();
   }
 
   return (

@@ -21,6 +21,19 @@ async function rotate() {
   });
 }
 
+export async function rotateAdsPlyr() {
+  await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/rotate-ads-plyr`, {
+    method: "POST",
+    cache: "no-store",
+  });
+}
+export async function rotateAdsDownload() {
+  await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/rotate-ads-download`, {
+    method: "POST",
+    cache: "no-store",
+  });
+}
+
 export async function getInfo(token: string, params: infoParams) {
   const res = await fetch(url(token), {
     method: "POST",
@@ -72,12 +85,27 @@ export async function getParsedData(token: string, id: string) {
 }
 
 //get adsLink
-export async function getAdsLink() {
+export async function getAdsLinkPlayer() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-adsLink`,
-    { cache: "no-store" }
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-adsLink-plyr`,
+    {
+      cache: "no-store",
+    }
   );
   const data = await res.json();
+
+  return data.activeLink;
+}
+
+export async function getAdsLinkDownload() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-adsLink-download`,
+    {
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+
   return data.activeLink;
 }
 

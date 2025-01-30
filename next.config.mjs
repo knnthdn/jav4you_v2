@@ -3,7 +3,7 @@ const nextConfig = {
     images: {
         domains: ["fourhoi.com"],
       },
-      // reactStrictMode: false,
+      reactStrictMode: false,
 };
 
 export default nextConfig;
