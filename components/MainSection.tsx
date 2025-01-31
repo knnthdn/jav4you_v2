@@ -131,10 +131,16 @@ export default function MainSection({ query }: { query: string }) {
     <>
       <div className="flex flex-col gap-3">
         {/* Searchbar  */}
-        <SearchArea isLoading={isLoading} />
+        <SearchArea />
 
         {/* Player: will Shown when there is src    */}
-        <div className={`${!data && "h-[60vw] md:h-[50vw] lg:max-h-[512px]"}`}>
+        <div
+          className={`${
+            !data || data?.status === 404
+              ? "h-[60vw] md:h-[50vw] lg:max-h-[512px]"
+              : null
+          }`}
+        >
           {/* Shown when there is no query  */}
           {!data && !isLoading && (
             <div className="h-full w-full grid place-content-center border border-[#4e4d4d]">

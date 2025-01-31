@@ -2,8 +2,8 @@ import puppeteer from "puppeteer";
 
 async function run(query: string) {
   const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: "/usr/bin/chromium-browser",
+    headless: false,
+    // executablePath: "/usr/bin/chromium-browser",
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -62,34 +62,53 @@ async function run(query: string) {
       }
     });
 
-    await page.goto(`https://missav.ws/en/${query}`, {
+    await page.goto(`https://missav.ws/dm13/en/${query}`, {
       timeout: 60000,
       waitUntil: "networkidle2",
     });
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
 
     //get the title
-    await page.waitForSelector("h1.text-base.lg\\:text-lg.text-nord6");
-    const title = await page.$eval(
-      "h1.text-base.lg\\:text-lg.text-nord6",
-      (element) =>
-        element.textContent ? element.textContent.trim() : "No Title"
-    );
+    let title;
+    try {
+      await page.waitForSelector("h1.text-base.lg\\:text-lg.text-nord6");
+      title = await page.$eval(
+        "h1.text-base.lg\\:text-lg.text-nord6",
+        (element) =>
+          element.textContent ? element.textContent.trim() : "No Title"
+      );
+    } catch {
+      title = "No title";
+    }
 
-    await page.waitForSelector("div.text-secondary");
-
-    // Extract the description
-    const description = await page.$eval("div.text-secondary", (element) =>
-      element.textContent ? element.textContent.trim() : "No Description"
-    );
+    //  Extract the description
+    let description;
+    try {
+      await page.waitForSelector("div.text-secondary");
+      description = await page.$eval("div.text-secondary", (element) =>
+        element.textContent ? element.textContent.trim() : "No Description"
+      );
+    } catch {
+      description = "No description";
+    }
 
     // get the actress name
-    await page.waitForSelector("div.text-secondary a.text-nord13");
-    const actress = await page.$eval(
-      "div.text-secondary a.text-nord13",
-      (element) =>
-        element.textContent ? element.textContent.trim() : "No Actress Name"
-    );
+    let actress;
+    try {
+      const checkTitle = await page.waitForSelector(
+        "div.text-secondary a.text-nord13"
+      );
+      if (!checkTitle) {
+        actress = "No Actress Name";
+      } else {
+        actress = await page.$eval(
+          "div.text-secondary a.text-nord13",
+          (element) =>
+            element.textContent ? element.textContent.trim() : "No Actress Name"
+        );
+      }
+    } catch {
+      actress = "No Actress Name";
+    }
 
     // extract the cover
     // const poster = networkUrls.filter((items) =>

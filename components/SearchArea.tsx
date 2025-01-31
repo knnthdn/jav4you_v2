@@ -1,7 +1,7 @@
 import { query } from "@/app/action/action";
 import { Search } from "lucide-react";
 
-function SearchArea({ isLoading }: { isLoading: boolean }) {
+function SearchArea() {
   return (
     <form
       action={query}
@@ -15,7 +15,6 @@ function SearchArea({ isLoading }: { isLoading: boolean }) {
         required
         className="flex-1 bg-[#353535] py-1 outline-none px-2 text-white focus:bg-none"
         autoComplete="off"
-        disabled={isLoading}
       />
       <button className="text-white mr-2 -mt-1" type="submit">
         <Search size={22} />
