@@ -2,8 +2,8 @@ import puppeteer from "puppeteer";
 
 async function run(query: string) {
   const browser = await puppeteer.launch({
-    headless: false,
-    // executablePath: "/usr/bin/chromium-browser",
+    headless: true,
+    executablePath: "/usr/bin/chromium-browser",
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -62,10 +62,14 @@ async function run(query: string) {
       }
     });
 
-    await page.goto(`https://missav.ws/dm13/en/${query}`, {
-      timeout: 60000,
+    const res = await page.goto(`https://missav.ws/dm13/en/${query}`, {
       waitUntil: "networkidle2",
     });
+
+    if (res?.status() === 404) {
+      await browser.close();
+      return { status: 404, results: {} };
+    }
 
     //get the title
     let title;
@@ -122,9 +126,8 @@ async function run(query: string) {
       str.startsWith("https://surrit.com/")
     );
     const matchingUrls = vidSrc.filter((url) => regex.test(url));
-
     // Search Result
-    if (matchingUrls.length !== 0) {
+    if (matchingUrls.length !== 0 || !vidSrc) {
       const data = {
         status: 200,
         recomms,

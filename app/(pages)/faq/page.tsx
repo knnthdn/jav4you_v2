@@ -16,9 +16,8 @@ export default function page() {
       <Title>Q1. Why am I getting no results for my search query?</Title>
       <Paragraph>
         <span className="italic">Answer: </span>
-        This usually happens if you’ve clicked the download button multiple
-        times. Wait for 1 minute, then try again. Refresh your browser to ensure
-        the page works correctly.
+        It looks like you&apos;ve entered a code that doesn&apos;t exist or may
+        be incorrect. Please double-check your code and try again.
       </Paragraph>
 
       <div className="border border-[#4e4d4d] my-2"></div>

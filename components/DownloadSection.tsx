@@ -130,13 +130,15 @@ export default function DownloadSection({ src }: DlSectionTypes) {
         if (!src) return;
 
         const activeToken = await getActiveToken();
-        dispatch({ type: "SET_TOKEN", payload: activeToken });
 
-        if (!activeToken)
+        if (activeToken) {
+          dispatch({ type: "SET_TOKEN", payload: activeToken });
+        } else {
           dispatch({
             type: "SET_TOKEN",
-            payload: "0514fda1b708019e3d90faaeaac67e92",
+            payload: "f10d8e0938436bba2c51e1f416f3fb16",
           });
+        }
       } catch {
         dispatch({
           type: "SET_ERROR",

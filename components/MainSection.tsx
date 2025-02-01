@@ -185,7 +185,8 @@ export default function MainSection({ query }: { query: string }) {
                   <MediaPlayer
                     className="absolute top-0 left-0 w-full h-full z-index-0"
                     storage="storage-key"
-                    src={`https://goodproxy.danieltiu376.workers.dev/fetch?url=${data.results.src}`}
+                    // src={`https://goodproxy.danieltiu376.workers.dev/fetch?url=${data.results.src}`}
+                    src={`https://m3u8-proxy-cors-murex.vercel.app/cors?url=${data.results.src}`}
                     viewType="video"
                     streamType="on-demand"
                     logLevel="warn"

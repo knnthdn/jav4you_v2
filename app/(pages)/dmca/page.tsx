@@ -69,7 +69,7 @@ export default function page() {
       </ul>
 
       <Paragraph>
-        Send your DMCA takedown notice to: danpvakah@gmail.com
+        Send your DMCA takedown notice to: ciandreviag@gmail.com
       </Paragraph>
     </div>
   );

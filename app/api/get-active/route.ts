@@ -2,12 +2,17 @@ import { connectMongoDB } from "@/lib/mongodb";
 import J4You from "@/model/jav4you";
 import { NextResponse } from "next/server";
 
+export const revalidate = 0;
+
 export async function GET() {
   try {
-    const connectToDB =  await connectMongoDB();
+    const connectToDB = await connectMongoDB();
 
-    if(connectToDB.status === 500){
-      return NextResponse.json({status: connectToDB.status,msg:connectToDB.msg})
+    if (connectToDB.status === 500) {
+      return NextResponse.json({
+        status: connectToDB.status,
+        msg: connectToDB.msg,
+      });
     }
 
     const data = await J4You.find({ type: "tokenList" });

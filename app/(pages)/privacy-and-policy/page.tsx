@@ -116,7 +116,7 @@ export default function page() {
       <Paragraph>
         If you have any questions or concerns about this Privacy Policy, please
         contact us at:{" "}
-        <span className="inline-block"> danpvakah@gmail.com</span>
+        <span className="inline-block"> ciandreviag@gmail.com</span>
       </Paragraph>
     </div>
   );
