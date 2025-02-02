@@ -3,7 +3,7 @@ import puppeteer from "puppeteer";
 async function run(query: string) {
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath: "/usr/bin/chromium-browser",
+    // executablePath: "/usr/bin/chromium-browser",
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -36,7 +36,8 @@ async function run(query: string) {
         request.url().includes("https://surrit.com/") ||
         request.url().includes("https://cdnjs.cloudflare.com/") ||
         request.url().startsWith("https://client-rapi-missav.recombee.com/") ||
-        request.url().startsWith("https://missav.ws/")
+        request.url().startsWith("https://missav.ws/") ||
+        request.url().startsWith("https://fourhoi.com/")
       ) {
         networkUrls.push(request.url());
         request.continue();
@@ -114,10 +115,9 @@ async function run(query: string) {
       actress = "No Actress Name";
     }
 
-    // extract the cover
-    // const poster = networkUrls.filter((items) =>
-    //   items.startsWith("https://fourhoi.com/")
-    // );
+    const poster = networkUrls.filter((items) =>
+      items.startsWith("https://fourhoi.com/")
+    );
 
     //filter and extract the video source
     const regex = /^https:\/\/surrit\.com.*\/playlist\.m3u8$/;
@@ -137,7 +137,7 @@ async function run(query: string) {
           description,
           code: query,
           src: matchingUrls[0],
-          // poster: poster[0],
+          poster: poster[0],
         },
       };
 

@@ -1,3 +1,4 @@
+import Annoucement from "@/components/Annoucement";
 import MainSection from "@/components/MainSection";
 import RootInfo from "@/components/RootInfo";
 import Image from "next/image";
@@ -11,11 +12,15 @@ export default async function page({
   const query = await searchParams;
 
   return (
-    <div className="w-full px-3 h-fit py-1 flex flex-col gap-2 sm:px-6 md:px-16 lg:max-w-screen-lg lg:mx-auto">
-      <Logo />
-      <MainSection query={query.q} />
-      <RootInfo />
-    </div>
+    <>
+      <div className="w-full px-3 h-fit py-1 flex flex-col gap-2 sm:px-6 md:px-16 lg:max-w-screen-lg lg:mx-auto">
+        <Annoucement />
+        <Logo />
+        <MainSection query={query.q} />
+        <div className="border border-gray-300 opacity-35 w-full mt-10 mb-5 rounded-md"></div>
+        <RootInfo />
+      </div>
+    </>
   );
 }
 

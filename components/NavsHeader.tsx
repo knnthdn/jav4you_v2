@@ -5,19 +5,19 @@ import { usePathname } from "next/navigation";
 
 const navs = [
   {
-    name: "HOME",
+    name: "Home",
     path: "/",
   },
   {
-    name: "DMCA",
-    path: "/dmca",
+    name: "Watch later",
+    path: "/watch-later",
   },
   {
     name: "FAQ",
     path: "/faq",
   },
   {
-    name: "ABOUT",
+    name: "About",
     path: "/about",
   },
 ];

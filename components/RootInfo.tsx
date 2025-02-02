@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 export default function RootInfo() {
   return (
-    <div className=" w-full mt-24 text-gray-300 flex flex-col gap-6 sm:gap-8 sm:mt-32">
+    <div className=" w-full text-gray-300 flex flex-col gap-6 sm:gap-8">
       <div className="flex flex-col gap-1">
         {/* mini logo  */}
         <Image

@@ -16,23 +16,14 @@ import {
 import DownloadSection from "./DownloadSection";
 import { Skeleton } from "./ui/skeleton";
 import { getAdsLinkPlayer, rotateAdsPlyr } from "@/app/services/services";
-import Image from "next/image";
-import { formatDuration } from "@/lib/utils";
+import AddToWatchLaterBtn from "./AddToWatchLaterBtn";
+import Card from "./Card";
 import Link from "next/link";
 
-type SearchResponseTypes = {
+export type SearchResponseTypes = {
   status: number;
   recomms: RecommsTypes[];
-  results?:
-    | {
-        actress: string;
-        src: string;
-        // poster: string;
-        code: string;
-        title: string;
-        description: string;
-      }
-    | undefined;
+  results?: ResultTypes | undefined;
   msg?: string;
 } | null;
 
@@ -48,10 +39,28 @@ interface RecommsTypes {
   };
 }
 
+export type ResultTypes = {
+  actress: string;
+  src: string;
+  poster: string;
+  code: string;
+  title: string;
+  description: string;
+};
+
 export default function MainSection({ query }: { query: string }) {
   const [data, setData] = useState<SearchResponseTypes>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [adsPlyr, setAdsPlyr] = useState<string>("");
+
+  useEffect(() => {
+    const cachedData = localStorage.getItem("code");
+    if (cachedData) {
+      const parsedData = JSON.parse(cachedData);
+
+      setData(parsedData);
+    }
+  }, []);
 
   useEffect(() => {
     if (!query) return;
@@ -181,6 +190,17 @@ export default function MainSection({ query }: { query: string }) {
           {data?.results && !isLoading && data.status !== 404 && (
             <>
               <div className="h-full w-full">
+                <Link href={"/"} className="flex justify-end mr-1">
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("code");
+                      setData(null);
+                    }}
+                    className="text-gray-900 bg-white px-1 rounded text-sm mb-1 hover:bg-gray-300"
+                  >
+                    clear
+                  </button>
+                </Link>
                 <div className="h-full w-full mb-1" onClick={injectAdsPlyr}>
                   <MediaPlayer
                     className="absolute top-0 left-0 w-full h-full z-index-0"
@@ -226,7 +246,10 @@ export default function MainSection({ query }: { query: string }) {
 
               <div className="border border-gray-300 my-1"></div>
 
-              <DownloadSection src={data.results.src} />
+              <div className="grid grid-cols-2 gap-2">
+                <AddToWatchLaterBtn data={data} />
+                <DownloadSection src={data.results.src} />
+              </div>
             </>
           )}
         </div>
@@ -237,55 +260,7 @@ export default function MainSection({ query }: { query: string }) {
         <div className="mt-8">
           <h2 className="text-2xl text-gray-300 mb-1">Recommendation:</h2>
 
-          <div className="grid gap-y-3 min-[350px]:grid-cols-2 min-[350px]:gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
-            {data.recomms.map((items, index) => {
-              return (
-                <Link
-                  href={`../?q=${items.id.toLowerCase()}`}
-                  key={index}
-                  onClick={() => localStorage.removeItem("code")}
-                  passHref
-                >
-                  <div>
-                    <div className="relative w-full h-[60vw] min-[350px]:h-[30vw] sm:h-[20vw] md:h-[16vw] lg:h-[13vw] min-[1200px]:h-[10vw] min-[1300px]:max-h-[130px] rounded-md overflow-hidden cursor-pointer">
-                      <Image
-                        src={`https://fourhoi.com/${items.id}/cover-n.jpg`}
-                        alt={`${items.values.title_en} cover`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="absolute hover:scale-105 transition-transform duration-300"
-                      />
-                      <span className="px-[3px] min-[350px]:text-xs min-[420px]:text-base rounded-sm absolute bottom-1 right-1 text-white bg-[#1e1e1eb0]">
-                        {formatDuration(items.values.duration)}
-                      </span>
-
-                      {items.values.is_uncensored_leak && (
-                        <span
-                          className={`absolute min-[350px]:text-xs min-[420px]:text-base ${
-                            !items.values.has_english_subtitle
-                              ? "bottom-1"
-                              : "top-1"
-                          } left-1 px-[3px] rounded-sm  text-white bg-[#1e40afb0] font-semibold`}
-                        >
-                          uncensored
-                        </span>
-                      )}
-
-                      <span className="px-[3px] min-[350px]:text-xs rounded-sm min-[420px]:text-base absolute bottom-1 left-1 text-white bg-[#b91c1cb0]">
-                        english subtitle
-                      </span>
-                      {/* {items.values.has_english_subtitle && (
-                      )} */}
-                    </div>
-
-                    <span className="text-gray-300 line-clamp-1">
-                      {items.values.title_en}
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+          <Card data={data} />
         </div>
       )}
     </>
