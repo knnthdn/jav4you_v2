@@ -27,7 +27,7 @@ export default function WatchLaterWrapper({
     return (
       <p className="text-white text-xs tracking-wide absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col text-nowrap gap-1">
         <span className="text-center text-xl text-red-800">￣\_(ツ)_/￣</span>
-        You don&apos;t have any saved videos yet. empty
+        You don&apos;t have any saved videos yet.
       </p>
     );
 
@@ -87,7 +87,7 @@ export default function WatchLaterWrapper({
                     localStorage.setItem("code", JSON.stringify(items))
                   }
                 >
-                  <div className="relative  h-[25vw] w-full min-[375px]:h-[28vw] min-[475px]:h-[20vw] sm:h-[18vw] md:h-[17vw]  lg:max-h-[134px] overflow-hidden cursor-pointer">
+                  <div className="relative h-[28vw] w-full min-[475px]:h-[20vw] sm:h-[18vw] md:h-[17vw]  lg:max-h-[134px] overflow-hidden cursor-pointer">
                     <Image
                       src={video?.poster || ""}
                       alt={video?.title || "No alt for this video"}

@@ -206,8 +206,8 @@ export default function MainSection({ query }: { query: string }) {
                     className="absolute top-0 left-0 w-full h-full z-index-0"
                     storage="storage-key"
                     // src={`https://goodproxy.danieltiu376.workers.dev/fetch?url=${data.results.src}`} //1
-                    src={`https://goodproxy.jv4you.workers.dev/fetch?url=${data.results.src}`} //2
-                    // src={`https://goodproxy.anoto083.workers.dev/fetch?url=${data.results.src}`} //3
+                    // src={`https://goodproxy.jv4you.workers.dev/fetch?url=${data.results.src}`} //2
+                    src={`https://goodproxy.anoto083.workers.dev/fetch?url=${data.results.src}`} //3
                     // src={`https://goodproxy.hatdogsamani.workers.dev/fetch?url=${data.results.src}`} //4
                     // src={`https://goodproxy.tymgorvez.workers.dev/fetch?url=${data.results.src}`} //5
 
