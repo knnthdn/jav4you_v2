@@ -179,6 +179,12 @@ export default function DownloadSection({ src }: DlSectionTypes) {
           type: "info",
           url: state.dlLink,
         });
+
+        if (response.code === 502)
+          throw Error(
+            "Request timeout, please reload your browser and try again."
+          );
+
         if (response.code === 429)
           throw Error("Too many Request!, try again later");
 
@@ -226,6 +232,12 @@ export default function DownloadSection({ src }: DlSectionTypes) {
           state.token,
           state.downloadData.id
         );
+
+        if (response.code === 502)
+          throw Error(
+            "Request timeout, please reload your browser and try again."
+          );
+
         if (response.code === 9006)
           throw Error(
             "Video not found!, Refresh your browser or select another quality"
@@ -247,7 +259,7 @@ export default function DownloadSection({ src }: DlSectionTypes) {
         }
       } catch (err) {
         if (err instanceof Error) {
-          dispatch({ type: "SET_ERROR", payload: err.message });
+          dispatch({ type: "SET_ERROR", payload: "Internal server error" });
         } else {
           dispatch({ type: "SET_ERROR", payload: "An unknown error occurred" });
         }
@@ -257,15 +269,6 @@ export default function DownloadSection({ src }: DlSectionTypes) {
 
     parseData();
   }, [state.downloadData, state.quality, src, state.token]);
-
-  // useEffect(() => {
-  //   async function getAdsLinkBut() {
-  //     const adsLink = await getAdsLink();
-  //     dispatch({ type: "SET_ADS_DL_BUT", payload: adsLink });
-  //   }
-
-  //   getAdsLinkBut();
-  // }, [state.dlLink]);
 
   async function onDownload() {
     try {
@@ -279,6 +282,12 @@ export default function DownloadSection({ src }: DlSectionTypes) {
         type: "download",
         format: state.quality,
       });
+
+      if (res.code === 502)
+        throw Error(
+          "Request timeout, please reload your browser and try again."
+        );
+
       if (res.code === 429) throw Error("Too many Request!, try again later");
 
       dispatch({ type: "SET_DOWNLOAD_DATA", payload: res });

@@ -4,12 +4,15 @@ async function run(query: string) {
   const browser = await puppeteer.launch({
     headless: true,
     // executablePath: "/usr/bin/chromium-browser",
-    // executablePath: "/snap/bin/chromium",
+    executablePath: "/snap/bin/chromium",
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--single-process",
-      "--no-zygote",
+      "--disable-crash-reporter",
+      "--disable-breakpad",
+      "--incognito",
+      "--disk-cache-size=0",
+      "--disable-gpu-shader-disk-cache",
     ],
   });
 
@@ -18,6 +21,7 @@ async function run(query: string) {
   await page.setUserAgent(
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
   );
+  await page.setCacheEnabled(false);
 
   let recomms;
 

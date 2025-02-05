@@ -207,11 +207,11 @@ export default function MainSection({ query }: { query: string }) {
                     storage="storage-key"
                     // src={`https://goodproxy.danieltiu376.workers.dev/fetch?url=${data.results.src}`} //1
                     // src={`https://goodproxy.jv4you.workers.dev/fetch?url=${data.results.src}`} //2
-                    src={`https://goodproxy.anoto083.workers.dev/fetch?url=${data.results.src}`} //3
+                    // src={`https://goodproxy.anoto083.workers.dev/fetch?url=${data.results.src}`} //3
                     // src={`https://goodproxy.hatdogsamani.workers.dev/fetch?url=${data.results.src}`} //4
                     // src={`https://goodproxy.tymgorvez.workers.dev/fetch?url=${data.results.src}`} //5
 
-                    // src={`https://m3u8-proxy-cors-murex.vercel.app/cors?url=${data.results.src}`}
+                    src={`https://m3u8-proxy-cors-murex.vercel.app/cors?url=${data.results.src}`}
                     viewType="video"
                     streamType="on-demand"
                     logLevel="warn"
