@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 
+import { Roboto } from "next/font/google";
+
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Script from "next/script";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const roboto = Roboto({
+  subsets: ["latin"],
+  display: "swap",
+  weight: "300",
 });
 
 export const metadata: Metadata = {
@@ -63,13 +58,13 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#1E1E1E] flex flex-col h-screen`}
+        className={`${roboto.className} antialiased bg-[#161618] flex flex-col min-[450px]:px-2 sm:max-w-screen-md md:mx-auto lg:max-w-screen-lg lg:px-4 xl:max-w-screen-xl 2xl:max-w-screen-2xl`}
       >
         <Header />
 
-        <main className="flex-1">{children}</main>
-
-        <Footer />
+        <main className="flex-1 w-full h-fit flex flex-col gap-2">
+          {children}
+        </main>
       </body>
     </html>
   );
