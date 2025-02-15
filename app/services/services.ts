@@ -195,3 +195,16 @@ export async function getActiveToken() {
     return null;
   }
 }
+
+export async function getM3u8Proxy() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-M3u8-Proxy`,
+      { next: { revalidate: 0 } }
+    );
+    const data = await res.json();
+    return data.proxy.proxy;
+  } catch {
+    return "https://goodproxy.anoto083.workers.dev";
+  }
+}

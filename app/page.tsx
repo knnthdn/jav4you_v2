@@ -14,13 +14,13 @@ export default async function page() {
           <span className="text-main">JAV Videos</span>
         </h1>
 
-        <SearchArea />
+        <SearchArea type="body" />
       </div>
 
       <div className="mt-10 flex flex-col gap-[80px] xl:gap-[100px] 2xl:mt-16">
-        <Trending />
         <NewRelease />
         <RecentUpdate />
+        <Trending />
         <Uncensored />
       </div>
     </div>

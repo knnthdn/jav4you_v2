@@ -5,6 +5,8 @@ import { Roboto } from "next/font/google";
 
 import Header from "@/components/Header";
 import Script from "next/script";
+import { HeaderProvider } from "@/context/HeaderProvider";
+import Footer from "@/components/Footer";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -60,11 +62,14 @@ export default function RootLayout({
       <body
         className={`${roboto.className} antialiased bg-[#161618] flex flex-col min-[450px]:px-2 sm:max-w-screen-md md:mx-auto lg:max-w-screen-lg lg:px-4 xl:max-w-screen-xl 2xl:max-w-screen-2xl`}
       >
-        <Header />
+        <HeaderProvider>
+          <Header />
+        </HeaderProvider>
 
         <main className="flex-1 w-full h-fit flex flex-col gap-2">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );

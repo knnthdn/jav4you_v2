@@ -1,13 +1,11 @@
-import { Logo } from "@/app/page";
+// import { Logo } from "@/app/page";
 import { List, Paragraph } from "@/components/RootInfo";
 import { ReactNode } from "react";
 
 export default function page() {
   return (
     <div className=" text-gray-300 flex flex-col gap-5">
-      <div className="mb-5">
-        <Logo />
-      </div>
+      <div className="mb-5">{/* <Logo /> */}</div>
 
       <h1 className="text-center text-3xl font-semibold">Privacy and Policy</h1>
 

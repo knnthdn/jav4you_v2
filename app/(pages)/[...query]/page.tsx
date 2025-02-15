@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { getThumbnail } from "../services/scrapeDef";
 import QueryContainer from "@/components/QueryContainer";
 import {
   OnErrorThumnailTypes,
@@ -7,12 +6,9 @@ import {
 } from "@/components/ThumbnailContainer";
 import { Suspense } from "react";
 import SkeletonThumnail from "@/components/SkeletonThumnail";
-
-type SearchParamsTypes = {
-  q: string;
-  filters: string;
-  sortby: string;
-};
+import { getThumbnail } from "../../services/scrapeDef";
+import { SearchParamsTypes } from "@/components/GetThumbnail";
+import { searchParamsSet } from "@/lib/filterList";
 
 export default async function page({
   params,
@@ -47,17 +43,8 @@ async function GetQueried({
 }) {
   if (!query) redirect("/");
 
-  const url =
-    searchParams?.filters && searchParams?.sortby
-      ? `/${query}?filters=${searchParams.filters}&sort=${searchParams.sortby}`
-      : searchParams?.filters
-      ? `/${query}?filters=${searchParams.filters}`
-      : searchParams?.sortby
-      ? `/${query}?sort=${searchParams.sortby}`
-      : `/${query}`;
-
   const thumbnails: ThumbnailTypes | OnErrorThumnailTypes = await getThumbnail(
-    url
+    searchParamsSet(searchParams, query)
   );
 
   return (

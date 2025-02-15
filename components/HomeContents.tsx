@@ -47,13 +47,12 @@ export function Uncensored() {
 }
 
 async function FetchTrending() {
-  const path = "today-hot";
+  const path = "today-hot&sortby=views";
   const getTrending: ThumbnailTypes | OnErrorThumnailTypes = await getThumbnail(
-    "/" + path
+    `/today-hot?sort=views`
   );
 
   if (hasData(getTrending)) return;
-
   return (
     <ThumbnailContainer
       title="Trending"
@@ -80,9 +79,9 @@ async function FetchNewRelease() {
 }
 
 async function FetchRecentUpdate() {
-  const path = "new";
+  const path = "new&sortby=published_at";
   const getRecentUpdate: ThumbnailTypes | OnErrorThumnailTypes =
-    await getThumbnail("/" + path);
+    await getThumbnail("/new?sort=published_at");
 
   if (hasData(getRecentUpdate)) return;
 

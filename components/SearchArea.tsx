@@ -1,16 +1,33 @@
 "use client";
+import { useHeaderProvider } from "@/context/HeaderProvider";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-function SearchArea() {
+export type NavHeaderTypes = {
+  // setToggleSearchbar: (val: boolean) => void;
+  toggleSearchbar: boolean;
+};
+
+type SearchAreaTypes = {
+  type: "body" | "header";
+  // setter?: (val: boolean) => void | undefined;
+};
+
+function SearchArea({ type }: SearchAreaTypes) {
   const [query, setQuery] = useState("");
+  const { onToggleSearch } = useHeaderProvider();
+
   const router = useRouter();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
 
-    router.push(`search/${query}`);
+    router.push(`/search/${query}`);
+
+    if (type === "header") {
+      onToggleSearch();
+    }
 
     setQuery("");
   }
@@ -18,7 +35,11 @@ function SearchArea() {
   return (
     <form
       onSubmit={(event) => handleSubmit(event)}
-      className="flex gap-[2px] min-[450px]:px-6 sm:w-[600px] sm:self-center"
+      className={`flex gap-[2px] min-[450px]:px-6 ${
+        type === "header"
+          ? "w-full sm:w-[800px]"
+          : "  sm:self-center sm:w-[600px]"
+      }`}
     >
       <input
         onChange={(event) => setQuery(event.target.value)}

@@ -1,26 +1,24 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useLayoutEffect } from "react";
 
 export default function useDetectResolution() {
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
 
-  useEffect(() => {
-    // Only access window when running in the browser
-    if (typeof window !== "undefined") {
-      const handleResize = () => {
-        setWidth(window.innerWidth);
-      };
-
-      window.addEventListener("resize", handleResize);
-
-      // Initialize width on component mount
+  useLayoutEffect(() => {
+    const handleResize = () => {
       setWidth(window.innerWidth);
+    };
 
-      // Clean up event listener on component unmount
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
+    window.addEventListener("resize", handleResize);
+
+    // Ensure width is correct after hydration
+    setWidth(window.innerWidth);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return width;

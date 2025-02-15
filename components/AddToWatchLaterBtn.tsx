@@ -1,53 +1,51 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ResultTypes, SearchResponseTypes } from "./MainSection";
+import { ThumbnailDataTypes } from "./ThumbnailContainer";
 
 export default function AddToWatchLaterBtn({
   data,
 }: {
-  data: SearchResponseTypes;
+  data: ThumbnailDataTypes;
 }) {
-  const videoList = localStorage.getItem("playList");
   const [isExist, setIsExist] = useState(false);
 
   useEffect(() => {
+    const videoList = localStorage?.getItem("saveVideos");
     if (videoList) {
       const list = JSON.parse(videoList);
       setIsExist(
-        list.some(
-          (val: { results: ResultTypes }) =>
-            val.results.code === data?.results?.code
-        )
+        list.some((val: ThumbnailDataTypes) => val.code === data?.code)
       );
     }
-  }, [data, videoList, isExist]);
+  }, [data, isExist]);
 
   function handleAdd() {
+    const videoList = localStorage?.getItem("saveVideos");
+
     // localStorage.setItem("playList", JSON.stringify([data?.results]));
     if (!videoList) {
-      localStorage.setItem("playList", JSON.stringify([data]));
+      localStorage.setItem("saveVideos", JSON.stringify([data]));
       setIsExist(true);
     } else if (!isExist) {
       setIsExist(true);
       const list = JSON.parse(videoList);
-      localStorage.setItem("playList", JSON.stringify([...list, data]));
+      localStorage.setItem("saveVideos", JSON.stringify([...list, data]));
     } else if (isExist) {
       const list = JSON.parse(videoList);
       const filter = list.filter(
-        (item: { results: ResultTypes }) =>
-          item.results.code !== data?.results?.code
+        (item: ThumbnailDataTypes) => item.code !== data?.code
       );
-      localStorage.setItem("playList", JSON.stringify([...filter]));
+      localStorage.setItem("saveVideos", JSON.stringify([...filter]));
       setIsExist(false);
     }
   }
 
   return (
     <button
-      className="w-full bg-neutral-700 text-white rounded-xl py-1 mt-1 hover:bg-neutral-600 transition duration-200 "
+      className="w-full bg-neutral-700 text-white rounded-xl py-1 sm:py-[6px] mt-1 hover:bg-neutral-600 transition duration-200 "
       onClick={handleAdd}
     >
-      {!isExist ? "Save to watch later" : "Remove to watch later"}
+      {!isExist ? "Save to videos" : "Remove from saved"}
     </button>
   );
 }

@@ -1,12 +1,10 @@
-import { Logo } from "@/app/page";
+// import { Logo } from "@/app/page";
 import { Paragraph } from "@/components/RootInfo";
 
 export default async function page() {
   return (
     <div className="text-gray-300 flex flex-col gap-5">
-      <div className="mb-5">
-        <Logo />
-      </div>
+      <div className="mb-5">{/* <Logo /> */}</div>
 
       <h1 className="text-center text-3xl font-semibold">About Jav4You</h1>
       <Paragraph>
