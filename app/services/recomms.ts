@@ -40,7 +40,7 @@ export async function getRecomms(code: string, active: number) {
   try {
     let index = 0;
 
-    if (active >= endpoint.length) {
+    if (active >= endpoint.length - 1) {
       index = 0;
     } else {
       index = active;
