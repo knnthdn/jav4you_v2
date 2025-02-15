@@ -20,7 +20,7 @@ export default function SaveVideos() {
 
   if (data.length === 0)
     return (
-      <p className="text-white text-xs tracking-wide absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col text-nowrap gap-1">
+      <p className="text-white text-xs tracking-wide h-[50vw] w-full grid place-content-center">
         <span className="text-center text-xl text-red-800">￣\_(ツ)_/￣</span>
         You don&apos;t have any saved videos yet.
       </p>
