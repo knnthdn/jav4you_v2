@@ -1,5 +1,3 @@
-"use client";
-
 import { getVideo } from "@/app/services/scrapeDef";
 import { OnErrorThumnailTypes } from "@/components/ThumbnailContainer";
 import NoResult from "./NoResult";
@@ -9,8 +7,6 @@ import AddToWatchLaterBtn from "./AddToWatchLaterBtn";
 import Recomms from "./Recomms";
 import { getAdsLinkPlayer, getM3u8Proxy } from "@/app/services/services";
 import Player from "./Player";
-import { useEffect, useState } from "react";
-import SkeletonPlayer from "./SkeletonPlayer";
 
 export type VideoTypes = {
   poster: string;
@@ -34,53 +30,8 @@ export type DescriptionTypes = {
 
 export type GetVideoTypes = VideoTypes | OnErrorThumnailTypes;
 
-const initVideo = {
-  poster: "",
-  title: "",
-  src: "",
-  synopsis: "",
-  description: {
-    releaseDate: "",
-    code: "",
-    title: "",
-    actress: [],
-    genre: [],
-    series: "",
-    maker: "",
-    director: "",
-    label: "",
-  },
-};
-
-export default function MainPlayer({ url }: { url: string }) {
-  const [video, setVideo] = useState<GetVideoTypes>(initVideo);
-  const [adsData, setAdsData] = useState<string>("");
-  const [proxy, setProxy] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    async function video() {
-      try {
-        const videoData = await getVideo(url);
-        const adsData = await getAdsLinkPlayer();
-        const proxyData = await getM3u8Proxy();
-
-        setVideo(videoData);
-        setAdsData(adsData);
-        setProxy(proxyData);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    video();
-
-    return () => {
-      setVideo(initVideo);
-      setAdsData("");
-      setProxy("proxy");
-      setIsLoading(false);
-    };
-  }, []);
+export default async function MainPlayer({ url }: { url: string }) {
+  const video: GetVideoTypes = await getVideo(url);
 
   const hasNoRes =
     "status" in video && (video.status === 404 || video.status === 500);
@@ -88,8 +39,6 @@ export default function MainPlayer({ url }: { url: string }) {
   const hasError = "status" in video;
 
   if (hasNoRes || hasError) return <NoResult query={`Video`} />;
-
-  if (isLoading) return <SkeletonPlayer />;
 
   const thumbnail = {
     image: `https://fourhoi.com/${video.description.code.toLowerCase()}/cover-t.jpg`,
@@ -100,8 +49,8 @@ export default function MainPlayer({ url }: { url: string }) {
     isUncensored: false,
   };
 
-  // const adsData = await getAdsLinkPlayer();
-  // const proxy = await getM3u8Proxy();
+  const adsData = await getAdsLinkPlayer();
+  const proxy = await getM3u8Proxy();
 
   return (
     <div className="xl:mt-3 lg:max-w-screen-md lg:mx-auto xl:max-w-screen-lg ">
