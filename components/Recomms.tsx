@@ -30,17 +30,26 @@ const initRecomms = {
 };
 
 export default function Recomms({ code }: { code: string }) {
-  // const recomms: RecommsTypes | OnErrorThumnailTypes = await getRecomms(
-  //   code.toLowerCase()
-  // );
-
   const [recomms, setRecomms] = useState<RecommsTypes | OnErrorThumnailTypes>(
     initRecomms
   );
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function onGetRecomms() {
+      try {
+        const active = localStorage.getItem("active");
+
+        const res = await getRecomms(code, active ? +active : 0);
+
+        setRecomms(res);
+
+        if (res?.newActive) {
+          localStorage.setItem("active", res.newActive.toString());
+        }
+      } finally {
+        setIsLoading(false);
+      }
       const active = localStorage.getItem("active");
 
       const res = await getRecomms(code, active ? +active : 0);
