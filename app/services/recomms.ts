@@ -75,7 +75,6 @@ export async function getRecomms(code: string) {
         ],
         distinctRecomms: true,
       }),
-      next: { revalidate: 0 },
     });
 
     if (res.status !== 200) {
@@ -97,7 +96,6 @@ export async function getRecomms(code: string) {
       recomms: data.json.recomms,
     };
   } catch (err) {
-    console.log(err);
     return { status: 500, message: "Internal error" };
   }
 }
