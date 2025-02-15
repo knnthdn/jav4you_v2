@@ -24,7 +24,7 @@ export async function getThumbnail(params: string) {
 
     // Fetch HTML content using native fetch
     const response = await fetch(url, {
-      // next: { revalidate: 43200 }, // Cache for 24 hours (86,400 seconds)
+      next: { revalidate: 43200 }, // Cache for 24 hours (86,400 seconds)
     });
 
     // Check if the response is OK
@@ -230,7 +230,9 @@ export async function getGenre(endpoint: string) {
     const url = `https://missav.ws/en/${endpoint}`;
 
     // Fetch HTML content using native fetch
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      next: { revalidate: 43200 }, // Cache for 24 hours (86,400 seconds)
+    });
 
     // Check if the response is OK
 
@@ -281,7 +283,9 @@ export async function getActressList(endpoint: string = "") {
     const url = `https://missav.ws/en/actresses${endpoint}`;
 
     // Fetch HTML content using native fetch
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      next: { revalidate: 43200 }, // Cache for 24 hours (86,400 seconds)
+    });
 
     // Check if the response is OK
 
@@ -341,7 +345,9 @@ export async function getActressRanking(endpoint: string) {
     const url = `https://missav.ws/en/actresses/ranking${endpoint}`;
 
     // Fetch HTML content using native fetch
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      next: { revalidate: 43200 }, // Cache for 24 hours (86,400 seconds)
+    });
 
     // Check if the response is OK
 
@@ -378,7 +384,9 @@ export async function getActressRanking(endpoint: string) {
 export async function getVideo(code: string) {
   try {
     // Step 1: Fetch the HTML content of the page
-    const response = await fetch(`https://missav.ws/dm60/en/${code}`);
+    const response = await fetch(`https://missav.ws/dm60/en/${code}`, {
+      next: { revalidate: 0 },
+    });
 
     if (response.status === 404) {
       return { status: 404, message: "Not Found." };
