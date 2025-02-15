@@ -205,6 +205,6 @@ export async function getM3u8Proxy() {
     const data = await res.json();
     return data.proxy.proxy;
   } catch {
-    return "https://goodproxy.anoto083.workers.dev";
+    return "https://goodproxy.anoto083.workers.dev/";
   }
 }

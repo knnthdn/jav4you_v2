@@ -10,7 +10,7 @@ export async function GET() {
 
     if (connectToDB.status === 500) {
       return NextResponse.json({
-        proxy: "https://goodproxy.tymgorvez.workers.dev",
+        proxy: "https://goodproxy.tymgorvez.workers.dev/",
       });
     }
 
@@ -19,7 +19,7 @@ export async function GET() {
     return NextResponse.json({ proxy: res }, { status: 200 });
   } catch {
     return NextResponse.json({
-      proxy: "https://goodproxy.tymgorvez.workers.dev",
+      proxy: "https://goodproxy.tymgorvez.workers.dev/",
     });
   }
 }
