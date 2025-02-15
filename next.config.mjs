@@ -9,7 +9,6 @@ const nextConfig = {
         pathname: "**",
       },
     ],
-    domains: ["fourhoi.com"],
   },
   reactStrictMode: false,
   eslint: {
