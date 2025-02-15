@@ -4,10 +4,7 @@ import { Skeleton } from "./ui/skeleton";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/audio.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
-import {
-  defaultLayoutIcons,
-  DefaultVideoLayout,
-} from "@vidstack/react/player/layouts/default";
+
 export default function SkeletonPlayer() {
   return (
     <div className="xl:mt-3 lg:max-w-screen-md lg:mx-auto xl:max-w-screen-lg w-full">

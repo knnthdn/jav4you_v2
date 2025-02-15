@@ -36,66 +36,59 @@ const endpoint: string[] = [
   "frontend_timestamp=1739557983&frontend_sign=9c75f0cca0168ba11f709d3d39947715afd32f03",
 ];
 
-let active = 0;
-
-export async function getRecomms(code: string) {
+export async function getRecomms(code: string, active: number) {
   try {
-    // Ensure `active` is within the bounds of the `endpoint` array
+    let index = 0;
+
     if (active >= endpoint.length) {
-      active = 0; // Reset `active` if it exceeds the array length
+      index = 0;
+    } else {
+      index = active;
     }
-
-    const hrm = endpoint[active];
-    const url = `https://client-rapi-missav.recombee.com/missav-default/batch/?${hrm}`;
-
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        requests: [
-          {
-            method: "POST",
-            path: `/recomms/items/${code}/items/`,
-            params: {
-              count: 12,
-              returnProperties: true,
-              includedProperties: [
-                "title_en",
-                "duration",
-                "has_chinese_subtitle",
-                "has_english_subtitle",
-                "is_uncensored_leak",
-                "dm",
-              ],
-              cascadeCreate: true,
+    const res = await fetch(
+      `https://client-rapi-missav.recombee.com/missav-default/batch/?${endpoint[index]}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          requests: [
+            {
+              method: "POST",
+              path: `/recomms/items/${code}/items/`,
+              params: {
+                count: 12,
+                returnProperties: true,
+                includedProperties: [
+                  "title_en",
+                  "duration",
+                  "has_chinese_subtitle",
+                  "has_english_subtitle",
+                  "is_uncensored_leak",
+                  "dm",
+                ],
+                cascadeCreate: true,
+              },
             },
-          },
-        ],
-        distinctRecomms: true,
-      }),
-    });
+          ],
+          distinctRecomms: true,
+        }),
+      }
+    );
 
     if (res.status !== 200) {
-      return { status: 404, message: "Recomms not found" };
+      return { status: 404, message: "Recomms not found", newActive: index };
     }
 
     const [data] = await res.json();
 
-    // Increment `active` for the next request
-    active = active + 1;
-
-    // Reset `active` if it reaches the end of the `endpoint` array
-    if (active >= endpoint.length) {
-      active = 0;
-    }
-
     return {
       code: data.code,
       recomms: data.json.recomms,
+      newActive: index + 1, // Always increment `index`
     };
-  } catch (err) {
-    return { status: 500, message: "Internal error" };
+  } catch {
+    return { status: 500, message: "Internal error", newActive: active };
   }
 }

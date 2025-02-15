@@ -53,25 +53,25 @@ const initVideo = {
 };
 
 export default function MainPlayer({ url }: { url: string }) {
-  // const video: GetVideoTypes = await getVideo(url);
   const [video, setVideo] = useState<GetVideoTypes>(initVideo);
   const [adsData, setAdsData] = useState<string>("");
   const [proxy, setProxy] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function video() {
-      setIsLoading(true);
-      const res = await getVideo(url);
-      setVideo(res);
+      try {
+        const videoData = await getVideo(url);
+        const adsData = await getAdsLinkPlayer();
+        const proxyData = await getM3u8Proxy();
 
-      const adsData = await getAdsLinkPlayer();
-      const proxy = await getM3u8Proxy();
-      setAdsData(adsData);
-      setProxy(proxy);
-      setIsLoading(false);
+        setVideo(videoData);
+        setAdsData(adsData);
+        setProxy(proxyData);
+      } finally {
+        setIsLoading(false);
+      }
     }
-
     video();
 
     return () => {

@@ -41,10 +41,15 @@ export default function Recomms({ code }: { code: string }) {
 
   useEffect(() => {
     async function onGetRecomms() {
-      setIsLoading(true);
-      const res = await getRecomms(code.toLocaleLowerCase());
+      const active = localStorage.getItem("active");
+
+      const res = await getRecomms(code, active ? +active : 0);
+
       setRecomms(res);
-      setIsLoading(false);
+
+      if (res?.newActive) {
+        localStorage.setItem("active", res.newActive.toString());
+      }
     }
     onGetRecomms();
 
