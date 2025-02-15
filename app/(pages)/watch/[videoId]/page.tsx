@@ -8,7 +8,7 @@ export default async function page({
   params: { videoId: string };
 }) {
   return (
-    <Suspense fallback={<SkeletonPlayer />}>
+    <Suspense fallback={<SkeletonPlayer key={params.videoId} />}>
       <MainPlayer url={params.videoId} />;
     </Suspense>
   );
